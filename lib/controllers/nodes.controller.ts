@@ -1,8 +1,22 @@
 import {Request, Response} from "express";
 import {Node, NodeInterface} from "../models/node.model";
 import {UpdateOptions, DestroyOptions} from "sequelize";
+import * as mqtt from 'mqtt';
+
 
 export class NodesController {
+    public client: mqtt.Client = mqtt.connect('mqtt://localhost:1883');
+
+    constructor() {
+        this.client.on('connect', () => {
+            this.client.subscribe('myTopic')
+        });
+        this.client.on('message', function (topic, message) {
+            let context = message.toString();
+            console.log(context)
+        })
+    }
+
     public index(req: Request, res: Response) {
         Node.findAll<Node>({})
             .then((nodes: Array<Node>) => res.json(nodes))

@@ -3,11 +3,15 @@ import {database} from "../config/database";
 
 export interface NodeInterface {
     name: string;
+    serial: number;
+    uuid: number;
 }
 
 export class Node extends Model {
     public id!: number;
     public name!: string;
+    public serial!: number;
+    public uuid!: number;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 }
@@ -22,7 +26,16 @@ Node.init(
         name: {
             type: new DataTypes.STRING(128),
             allowNull: false
-        }
+        },
+        serial: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false
+        },
+        uuid: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false
+        },
+
     },
     {
         tableName: "nodes",
