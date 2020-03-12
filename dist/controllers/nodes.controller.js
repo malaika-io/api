@@ -8,7 +8,7 @@ const CERT = fs.readFileSync(path.join('/home/karim/ssl/Authority/ca.crt'));
 const optionsMqtt = {
     host: "mqtt.malaika.io",
     cert: CERT,
-    rejectUnauthorized: true,
+    rejectUnauthorized: false,
     protocol: 'mqtts',
     username: "karim",
     password: "Lyna2009"
