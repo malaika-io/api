@@ -2,14 +2,26 @@ import {Request, Response} from "express";
 import {Node, NodeInterface} from "../models/node.model";
 import {UpdateOptions, DestroyOptions} from "sequelize";
 import * as mqtt from 'mqtt';
+import * as fs from 'fs';
+import * as path from "path";
+
+const CERT = fs.readFileSync(path.join('/home/karim/ssl/Authority/ca.crt'));
+const optionsMqtt = {
+    host: "mqtt.malaika.io",
+    cert: CERT,
+    rejectUnauthorized: true,
+    protocol: 'mqtts',
+    username: "karim",
+    password: "Lyna2009"
+};
 
 
 export class NodesController {
-    public client: mqtt.Client = mqtt.connect('mqtt://localhost:1883');
+    public client: mqtt.Client = mqtt.connect(optionsMqtt);
 
     constructor() {
         this.client.on('connect', () => {
-            this.client.subscribe('myTopic')
+            this.client.subscribe('test')
         });
         this.client.on('message', function (topic, message) {
             let context = message.toString();
